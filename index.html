@@ -62,8 +62,8 @@
             height: 100%;
             /* Dark grid pattern using repeating gradients */
             background-image: 
-                repeating-linear-gradient(0deg, rgba(0, 208, 255, 0.02) 1px, transparent 1px),
-                repeating-linear-gradient(90deg, rgba(0, 208, 255, 0.02) 1px, transparent 1px);
+                repeating-linear-gradient(0deg, rgba(0, 208, 255, 0.03) 1px, transparent 1px),
+                repeating-linear-gradient(90deg, rgba(0, 208, 255, 0.03) 1px, transparent 1px);
             background-size: 25px 25px; /* Small grid size */
             opacity: 0.8; 
             z-index: -1; 
@@ -92,7 +92,7 @@
         .interactive-card {
             transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease, background-color 0.3s ease;
             transform-style: preserve-3d; 
-            position: relative; /* Needed for interactivity */
+            position: relative; 
             overflow: hidden; 
         }
 
@@ -198,8 +198,8 @@
 
         .skill-item {
             perspective: 1000px; 
-            height: 250px; 
-            display: flex; /* Centers the icon */
+            height: 280px; 
+            display: flex; 
             justify-content: center;
             align-items: center;
         }
@@ -210,14 +210,11 @@
             height: 100%;
             transition: transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
             transform-style: preserve-3d;
-            /* Start floating animation */
             animation: floating 4s infinite ease-in-out; 
         }
 
-        /* CRITICAL CHANGE: Apply flip on HOVER */
         .skill-item:hover .skill-content {
             transform: rotateY(180deg);
-            /* Stop floating when hovered */
             animation: none; 
         }
 
@@ -233,48 +230,81 @@
             border-radius: 0.75rem; 
             padding: 1.5rem; 
             text-align: center;
-            box-shadow: 0 0 0 transparent; /* Initially no shadow/border */
+            box-shadow: 0 0 0 transparent; 
         }
         
-        /* FRONT SIDE: Just the icon, no background */
         .skill-front {
-            background-color: transparent; /* No background */
+            background-color: transparent; 
             z-index: 2;
             transition: opacity 0.3s ease;
         }
 
-        /* Hide the front content entirely when flipped */
         .skill-item:hover .skill-front {
             opacity: 0;
         }
         
-        /* BACK SIDE: The actual card content, initially invisible */
         .skill-back {
-            background-color: #1f2937; /* Dark background for the card */
+            background-color: #1f2937; 
             transform: rotateY(180deg);
-            /* CRITICAL: Make the card appear only when flipped */
             box-shadow: 0 0 0 transparent;
-            border: 2px solid transparent; /* Hidden border */
+            border: 2px solid transparent; 
             transition: box-shadow 0.8s ease, border-color 0.8s ease;
         }
         
-        /* When hovering, reveal the shadow and the glowing border */
         .skill-item:hover .skill-back {
             box-shadow: 0 0 15px rgba(0, 208, 255, 0.8), 0 0 30px rgba(0, 208, 255, 0.5); 
             border-color: #00D0FF;
         }
 
-        /* Icon styling (Visible on front side only) */
         .skill-icon-visible {
-            font-size: 5rem; /* Large icon size */
-            color: #00D0FF; /* Always blue for visibility */
+            font-size: 5rem; 
+            color: #00D0FF; 
             transition: transform 0.3s ease;
-            text-shadow: 0 0 10px rgba(0, 208, 255, 0.5); /* Subtle icon glow */
+            text-shadow: 0 0 10px rgba(0, 208, 255, 0.5); 
         }
         
         .skill-item:hover .skill-icon-visible {
             transform: scale(1.05);
         }
+
+        /* ------------------------------------------------ */
+        /* --- NEW: HIGH-CONTRAST CYBER SECURITY NAV BACKGROUND ANIMATION --- */
+        /* ------------------------------------------------ */
+        
+        /* Keyframe for the strong blue glow pulse (Increased Intensity) */
+        @keyframes scan-glow {
+            0% { border-color: rgba(0, 208, 255, 0.6); box-shadow: 0 4px 15px rgba(0, 208, 255, 0.2); }
+            50% { border-color: rgba(0, 208, 255, 1); box-shadow: 0 4px 30px rgba(0, 208, 255, 0.6); }
+            100% { border-color: rgba(0, 208, 255, 0.6); box-shadow: 0 4px 15px rgba(0, 208, 255, 0.2); }
+        }
+        
+        /* Keyframe for the CHIP/SQUARE-LIKE moving pattern (Faster Movement) */
+        @keyframes flowing-chips {
+            0% { background-position: 0 0; }
+            /* Reduced duration for faster, more noticeable movement */
+            100% { background-position: 100px 100px; } 
+        }
+
+        .cyber-nav-bg {
+            /* Base dark background */
+            background-color: #0d1117; 
+            border-bottom: 2px solid #00D0FF;
+            
+            /* Enhanced Pattern Overlay: Flowing Data Chips */
+            background-image: 
+                /* Subtle, high-contrast moving square grid */
+                repeating-linear-gradient(45deg, rgba(0, 208, 255, 0.15) 1px, transparent 1px, transparent 20px),
+                repeating-linear-gradient(-45deg, rgba(0, 208, 255, 0.15) 1px, transparent 1px, transparent 20px);
+            
+            background-size: 50px 50px; /* Smaller pattern for density */
+            
+            /* Applying both animations */
+            animation: 
+                scan-glow 3s infinite ease-in-out, /* Pulsating glow on the border/shadow */
+                flowing-chips 10s infinite linear; /* Fast, continuous movement of the pattern */
+        }
+        /* --- END NEW High-Contrast Cyber Nav Styling --- */
+
 
     </style>
 </head>
@@ -283,8 +313,8 @@
     <!-- Matrix Code Rain Background Canvas -->
     <canvas id="matrixCanvas"></canvas>
 
-    <!-- Navigation Bar (شريط الملاحة) -->
-    <nav class="sticky top-0 z-50 bg-[#0d1117]/95 backdrop-blur-sm shadow-lg border-b border-gray-800">
+    <!-- Navigation Bar (شريط الملاحة) - APPLIED NEW, STRONGER CYBER STYLE -->
+    <nav class="sticky top-0 z-50 backdrop-blur-md shadow-2xl cyber-nav-bg">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex">
@@ -577,7 +607,7 @@
                 <div class="flex items-center space-x-4 p-3 rounded-lg hover:bg-[#1f2937] transition duration-200">
                     <div class="accent-bg p-3 rounded-full shadow-lg">
                         <!-- Icon: LinkedIn (Blue Background) -->
-                        <svg class="w-6 h-6 text-[#0d1117]" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.366-4-3.267-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.784 7 2.457v6.778z"/></svg>
+                        <svg class="w-6 h-6 text-[#0d1117]" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.761-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.366-4-3.267-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.784 7 2.457v6.778z"/></svg>
                     </div>
                     <div>
                         <p class="text-gray-400">LinkedIn Profile</p>
